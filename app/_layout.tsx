@@ -1,7 +1,7 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Slot, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
@@ -14,8 +14,7 @@ export {
 } from 'expo-router';
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
+  initialRouteName: '(stack)', // Або (tabs) — залежить, що хочеш бачити при старті
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -27,7 +26,6 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
@@ -50,8 +48,15 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
+      {/* Основний стек для всього застосунку */}
+      <Stack screenOptions={{ headerShown: false }}>
+        {/* Таби — без заголовку */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
+        {/* Стек — без таббару, але може мати заголовки */}
+        <Stack.Screen name="(stack)" options={{ headerShown: false }} />
+
+        {/* Модалки, якщо є */}
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>
