@@ -6,7 +6,8 @@ import { useRouter } from 'expo-router';
 export default function MafiaScreen() {
   const router = useRouter();
   const handleNewGame = () => {
-    router.push('/cards'); // Перехід на інший екран
+    
+    router.push('/player'); // Перехід на інший екран
   };
 
   return (
